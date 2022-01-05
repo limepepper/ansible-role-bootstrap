@@ -1,0 +1,54 @@
+---
+
+- tags: [ never, report ]
+  block:
+
+    - name: write out hostvars to cache
+      tags: always
+      include_tasks: show-debug.yml
+
+    - fail:
+
+- tags: [ never, hostvars ]
+  block:
+
+    - name: write out hostvars to cache
+      tags: always
+      include_tasks: hostvars/main.yml
+
+- tags: [ never, pkg-tools ]
+  block:
+
+    - name: install pkg-tools
+      tags: always
+      include_tasks: tools-packaging/main.yml
+
+- tags: [ bootstrap ]
+  block:
+
+    - name: "Fail if Ansible is old ( {{ ansible_version.full }} ?? 2.5.0 )"
+      fail: msg="We need updates in Ansible 2.5.0. Please update your kit."
+      when: ansible_version.full is version('2.5.0', 'lt')
+
+    - name: check whether service thing actually works
+      tags: always
+      include_tasks: service-checks.yml
+
+    - name: distro/version specific bootstrapping
+      tags: always
+      include_tasks: install/main.yml
+
+    # - name: run any requested bootstrapping options
+    #   tags: always
+    #   include_tasks: "opt/{{ bootstrap_opts_item }}.yml"
+    #   with_items: "{{ bootstrap_opts }}"
+    #   loop_control:
+    #     loop_var:  bootstrap_opts_item
+
+    # if you provide a "users" key, bootstrap will loop it and create the users
+    - name: loop over each user
+      include_tasks: opt/user.yml
+      loop_control:
+        loop_var: user
+      with_items: "{{ bootstrap_users }}"
+      tags: always

@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+
+    - name: "Include limepepper.bootstrap"
+      include_role:
+        name: "limepepper.bootstrap"

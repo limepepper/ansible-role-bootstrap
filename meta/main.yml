@@ -1,0 +1,23 @@
+---
+
+galaxy_info:
+  role_name: bootstrap
+  namespace: limepepper
+  author: Tom Hodder
+  description: bootstrap instance with useful tools
+  company: Lime Pepper Ltd
+  # issue_tracker_url: http://example.com/issue/tracker
+  license: license (MIT)
+  min_ansible_version: 2.7
+  # min_ansible_container_version:
+  github_branch: devel
+  platforms:
+    - name: Fedora
+      versions: [ all ]
+    - name: CentOS
+      versions: [7 ,8]
+    - name: Debian
+      versions: [9, 10, 11]
+  galaxy_tags: []
+
+dependencies: []
